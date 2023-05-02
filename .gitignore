@@ -1,0 +1,4 @@
+django/venv
+django/api/models/*
+django/db.sqlite3
+react/front/node_modules
