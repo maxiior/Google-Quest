@@ -4,6 +4,9 @@ from rest_framework import status
 import torch
 from transformers import AutoTokenizer, AutoModel
 from .architectures import Model, BERT_2FC
+from .utils import tokenize, get_merged, make_dict
+from .models import Score
+from .constants import response_keys
 
 BERT_MODEL = "allegro/herbert-base-cased" # "roberta-base"
 DEVICE = 'cpu'
@@ -20,22 +23,28 @@ def get_model():
 
 M, T = get_model()
 
-@api_view(['POST'])
-def make_prediction(request):
-    data = request.data
-    if 'content' in data:
-        tokens = T.batch_encode_plus(
-                [data['content']],
-                max_length=250,
-                padding='max_length',
-                truncation=True,
-                return_token_type_ids=False
-            )
-        
-        input_ids = torch.tensor(tokens['input_ids'])
-        mask = torch.tensor(tokens['attention_mask'])
-        preds = M(input_ids.to(DEVICE), mask.to(DEVICE))
-        
-        return Response({"answer": str(preds.detach().numpy())}, status=status.HTTP_200_OK)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST', 'GET'])
+def predictions(request):
+    if request.method == 'POST':
+
+        data = request.data
+
+        if all(key in data for key in ['question_title', 'question_body', 'answer', 'category']):
+            text, category = get_merged(data)
+            text, category = tokenize(T, text, category)
+            preds = M(text['input_ids'].to(DEVICE), text['attention_mask'].to(DEVICE))
+
+            # after updating the model, preds should go to make_dict
+            response = make_dict([0 for _ in range(30)], data)
+
+            score = Score(**response)
+            score.save()
+
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'GET':
+        scores = Score.objects.all()
+        response = [{j:getattr(i, j) for j in response_keys} for i in scores]   
+        return Response(response, status=status.HTTP_200_OK)
