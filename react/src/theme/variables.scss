@@ -1,0 +1,16 @@
+$blackColor: #000000;
+$purpleColor: #673ae7;
+$whiteColor: #ffffff;
+$greyColor: #f0f0f0;
+
+$brightPurpleColor: #7449e9;
+$darkPurpleColor: #511ce3;
+
+$red: #f2324d;
+
+@mixin soft {
+  border: 0;
+  border-radius: 20px;
+  padding: 10px 20px;
+  width: 50vw;
+}

@@ -1,0 +1,9 @@
+@import "theme/variables.scss";
+
+.wrapper-error {
+  @include soft();
+  background-color: $red;
+  color: white;
+  font-size: 12px;
+  margin-bottom: 15px;
+}

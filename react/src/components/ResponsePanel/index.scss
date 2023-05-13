@@ -1,0 +1,10 @@
+@import "theme/variables.scss";
+
+.response_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputs {
+  color: $purpleColor;
+}

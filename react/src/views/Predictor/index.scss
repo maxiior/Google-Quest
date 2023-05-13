@@ -1,0 +1,49 @@
+@import "theme/variables.scss";
+
+.textarea {
+  @include soft();
+  background-color: $greyColor;
+  outline: none;
+  overflow: hidden;
+  resize: none;
+  font-family: "Montserrat", sans-serif;
+  display: block;
+  margin-top: 10px;
+}
+
+.textarea:first-child {
+  margin-top: 0;
+}
+
+.container {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  @include soft();
+  display: block;
+  cursor: pointer;
+  background-color: $purpleColor;
+  font-size: 18px;
+  color: $whiteColor;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  transition: background-color 0.5s ease;
+}
+
+.button:hover {
+  background-color: #8560eb;
+}
+
+.button:active {
+  background-color: $darkPurpleColor;
+  transition: background-color 0s ease;
+}
+
+.icon-holder {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}

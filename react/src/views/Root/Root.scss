@@ -1,0 +1,36 @@
+@import "theme/variables.scss";
+
+.wrapper {
+  background-color: $whiteColor;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.header {
+  color: $blackColor;
+  font-size: 56px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.top-panel {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.option {
+  cursor: pointer;
+  color: $blackColor;
+  margin-right: 15px;
+}
+
+.option:last-child {
+  margin-right: 0;
+}
+
+.option.active {
+  color: $purpleColor;
+  text-decoration: underline;
+}
